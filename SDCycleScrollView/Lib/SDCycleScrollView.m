@@ -108,10 +108,12 @@ NSString * const ID = @"cycleCell";
 
 - (void)setupPageControl
 {
-    TAPageControl *pageControl = [[TAPageControl alloc] init];
-    pageControl.numberOfPages = self.imagesGroup.count;
-    [self addSubview:pageControl];
-    _pageControl = pageControl;
+    if (!_pageControl) {
+        TAPageControl *pageControl = [[TAPageControl alloc] init];
+        pageControl.numberOfPages = self.imagesGroup.count;
+        [self addSubview:pageControl];
+        _pageControl = pageControl;
+    }
 }
 
 
@@ -128,9 +130,11 @@ NSString * const ID = @"cycleCell";
 
 - (void)setupTimer
 {
-    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:self.autoScrollTimeInterval target:self selector:@selector(automaticScroll) userInfo:nil repeats:YES];
-    _timer = timer;
-    [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+    if (!_timer) {
+        NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:self.autoScrollTimeInterval target:self selector:@selector(automaticScroll) userInfo:nil repeats:YES];
+        _timer = timer;
+        [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+    }
 }
 
 - (void)layoutSubviews
