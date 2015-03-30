@@ -24,7 +24,7 @@
 #import "UIView+SDExtension.h"
 #import "TAPageControl.h"
 
-
+#define GROUP_MULTIPLIER 100
 
 NSString * const ID = @"cycleCell";
 
@@ -93,6 +93,7 @@ NSString * const ID = @"cycleCell";
     [mainView registerClass:[SDCollectionViewCell class] forCellWithReuseIdentifier:ID];
     mainView.dataSource = self;
     mainView.delegate = self;
+    mainView.contentOffset = CGPointMake(self.mainView.sd_width * (GROUP_MULTIPLIER / 2), 0);
     [self addSubview:mainView];
     _mainView = mainView;
 }
@@ -100,7 +101,7 @@ NSString * const ID = @"cycleCell";
 - (void)setImagesGroup:(NSArray *)imagesGroup
 {
     _imagesGroup = imagesGroup;
-    _totalItemsCount = imagesGroup.count * 100;
+    _totalItemsCount = imagesGroup.count * GROUP_MULTIPLIER;
     
     [self setupTimer];
     [self setupPageControl];
@@ -126,6 +127,7 @@ NSString * const ID = @"cycleCell";
         [_mainView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:targetIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
     }
     [_mainView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:targetIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
+    
 }
 
 - (void)setupTimer
