@@ -71,8 +71,6 @@ NSString * const ID = @"cycleCell";
 {
     _autoScrollTimeInterval = autoScrollTimeInterval;
     
-    [_timer invalidate];
-    _timer = nil;
     [self setupTimer];
 }
 
