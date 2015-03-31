@@ -132,11 +132,12 @@ NSString * const ID = @"cycleCell";
 
 - (void)setupTimer
 {
-    if (!_timer) {
-        NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:self.autoScrollTimeInterval target:self selector:@selector(automaticScroll) userInfo:nil repeats:YES];
-        _timer = timer;
-        [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+    if (_timer) {
+        [_timer invalidate];
     }
+    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:self.autoScrollTimeInterval target:self selector:@selector(automaticScroll) userInfo:nil repeats:YES];
+    _timer = timer;
+    [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
 }
 
 - (void)layoutSubviews
@@ -158,6 +159,10 @@ NSString * const ID = @"cycleCell";
     [_pageControl sizeToFit];
 }
 
+- (void)reloadData {
+    self.pageControl.numberOfPages = self.imagesGroup.count;
+    [self.mainView reloadData];
+}
 
 #pragma mark - UICollectionViewDataSource
 

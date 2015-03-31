@@ -43,5 +43,6 @@ typedef enum {
 @property (nonatomic, weak) id<SDCycleScrollViewDelegate> delegate;
 
 + (instancetype)cycleScrollViewWithFrame:(CGRect)frame imagesGroup:(NSArray *)imagesGroup;
+- (void)reloadData;
 
 @end

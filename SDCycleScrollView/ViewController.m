@@ -10,7 +10,8 @@
 #import "SDCycleScrollView.h"
 
 @interface ViewController () <SDCycleScrollViewDelegate>
-
+@property (nonatomic, strong) SDCycleScrollView *cycleScrollView;
+@property (nonatomic, strong) SDCycleScrollView *cycleScrollView2;
 @end
 
 @implementation ViewController
@@ -34,20 +35,47 @@
     CGFloat w = self.view.bounds.size.width;
     
     // 创建不带标题的图片轮播器
-    SDCycleScrollView *cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 60, w, 180) imagesGroup:images];
-    cycleScrollView.delegate = self;
+    self.cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 60, w, 180) imagesGroup:images];
+    self.cycleScrollView.delegate = self;
     //cycleScrollView.autoScrollTimeInterval = 2.0;
-    [self.view addSubview:cycleScrollView];
+    [self.view addSubview:self.cycleScrollView];
     
     
     // 创建带标题的图片轮播器
-    SDCycleScrollView *cycleScrollView2 = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 280, w, 180) imagesGroup:images];
-    cycleScrollView2.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
-    cycleScrollView2.delegate = self;
-    cycleScrollView2.titlesGroup = titles;
-    [self.view addSubview:cycleScrollView2];
+    self.cycleScrollView2 = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 280, w, 180) imagesGroup:images];
+    self.cycleScrollView2.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
+    self.cycleScrollView2.delegate = self;
+    self.cycleScrollView2.titlesGroup = titles;
+    [self.view addSubview:self.cycleScrollView2];
     
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setTitle:@"刷新" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(reload:) forControlEvents:UIControlEventTouchUpInside];
+    button.frame = CGRectMake(([UIScreen mainScreen].bounds.size.width - w) / 2, 280 + 180, w, 40);
+    [self.view addSubview:button];
+}
 
+- (void)reload:(UIButton *)sender {
+    NSArray *images = @[[UIImage imageNamed:@"h4.jpg"],
+                        [UIImage imageNamed:@"h3.jpg"],
+                        [UIImage imageNamed:@"h2.jpg"],
+                        [UIImage imageNamed:@"h1.jpg"],
+                        [UIImage imageNamed:@"h3.jpg"],
+                        ];
+    
+    NSArray *titles = @[@"数据已经重新加载过 1",
+                        @"数据已经重新加载过 2",
+                        @"数据已经重新加载过 3",
+                        @"数据已经重新加载过 4",
+                        @"数据已经重新加载过 3(again)",
+                        ];
+    
+    self.cycleScrollView.imagesGroup = images;
+    self.cycleScrollView2.imagesGroup = images;
+    self.cycleScrollView2.titlesGroup = titles;
+    [self.cycleScrollView reloadData];
+    [self.cycleScrollView2 reloadData];
 }
 
 #pragma mark - SDCycleScrollViewDelegate
